@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordenando</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./ordenando.js"></script>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h1>Ordenando Valores</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="valor">Valor</label>
+                <input class="form-control" id="valor" type="number">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <button class='btn btn-primary mt-2' id="add" type="button" onclick="adicionar()">Adicionar</button>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <select class="form-select" name="sort" id="sort">
+                    <option value="" selected>Blubble Sort</option>
+                    <option value="">Selection</option>
+                    <option value="">Quick Sort</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <button class='btn btn-primary mt-2' id="sort" type="button" onclick="ordenar()">Ordenar</button>
+                <button class='btn btn-primary mt-2' id="suffle" type="button" onclick="misturar()">Misturar</button>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <ul id="valores">
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function adicionar() {
+            var valor = document.getElementById("valor")
+            var lista = document.getElementById("valores")
+
+            var elementoLista = document.createElement("li");
+            var elementoNode = document.createTextNode(valor.value)
+
+            elementoLista.appendChild(elementoNode)
+
+            lista.appendChild(elementoLista)
+        }
+
+        function ordenar() {
+            var lista = document.getElementById("valores")
+            var elementos = lista.children
+            var array = Array.from(elementos).map(x => parseInt(x.innerHTML))
+
+            var typeSort = document.getElementById("sort").selectedIndex
+            switch (typeSort) {
+                case 0:
+                    bubbleSort(array)
+                    break;
+                case 1:
+                    selectionSort(array)
+                    break;
+                case 2:
+                    quickSort(array)
+                    break
+                default:
+                    console.log("Tipo de ordenação não definido")
+                    return;
+            }
+
+            lista.innerHTML = array.map(x => `<li>${x}</li>`).reduce((x, y) => x + y)
+        }
+
+        function misturar() {
+            var lista = document.getElementById("valores")
+            var elementos = lista.children
+            var array = Array.from(elementos).map(x => parseInt(x.innerHTML))
+
+            shuffle(array, array.length * 2)
+
+            lista.innerHTML = array.map(x => `<li>${x}</li>`).reduce((x, y) => x + y)
+        }
+    </script>
+
+</body>
+
+</html>

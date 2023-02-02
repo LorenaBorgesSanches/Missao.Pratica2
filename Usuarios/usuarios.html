@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuários</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+</head>
+
+<body class="container bg-warning">
+    <h1>Usuários de Teste via REST</h1>
+    <h4 class="text-light">Os Usuário deste exemplo são fornecidos pela API de testes reqres.in</h4>
+    <div id="usuarios" class="container-fluid">
+        <div class="row">
+            <div class="col col-4" v-for="(user, index) in users" :key="user.id">
+                <div class="card p-2 m-3">
+                    <img :src="user.avatar" class="card-img-top" alt="avatar" />
+                    <div class="card-body">
+                        <h2 class="card-title">{{ user.first_name}} {{ user.last_name}}</h2>
+                        <p class=" card-text">{{ user.email }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    var app = new Vue({
+        el: '#usuarios',
+        data: {
+            users: []
+        },
+        methods: {
+            loadUsers: function () {
+                $.getJSON("https://reqres.in/api/users?per_page=10").then((response) => {
+                    this.users = response.data
+                })
+            }
+        },
+        mounted: function () {
+            this.loadUsers()
+        }
+    })
+</script>
+</html>
